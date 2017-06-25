@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "particle.h"
 #include "ofxOpenCv.h"
+#include "math.h"
 
 class ofApp : public ofBaseApp{
 
@@ -23,17 +24,21 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    float ofDistSquared(ofPoint p1, float x2, float y2){return pow((p1.x-x2),2)+pow((p1.y-y2),2);}
+    float ofDistSquared(ofPoint p1, ofPoint p2){return pow((p2.x-p1.x),2)+pow((p2.y-p1.y),2);}
 
-    // Surcharge des fcts ofDist en ajoutant ofPoints
-    // (idéalement le faire avec ofVect2f et ofVect3f
-    float ofDist(ofPoint p1, ofPoint p2){
-         return sqrt(pow((p2.x-p1.x),2)+pow((p2.y-p1.y),2));
-    }
-    float ofDist(ofPoint p1, float x2, float y2){
-         return sqrt(pow((p1.x-x2),2)+pow((p1.y-y2),2));
-    }
+    bool isVisited(Particle p){
+        bool visite = false;
+        for (int i = 0 ; i < track.size() ; i++){
+            if(visite = (track[i] == p)){
+                return true;
+            }
+        }
+        return visite;
+    };
 
     vector<Particle> particles;
+    vector<Particle> track;
     int nbParticles = 1000;
     int mouseX = 0;
     int mouseY = 0;
@@ -54,6 +59,10 @@ public:
 
     int                     threshold;
     bool                    bLearnBakground;
-    int width = ofGetWidth();
-    int height = ofGetHeight();
+    int                     width = ofGetWidth();
+    int                     height = ofGetHeight();
+
+    bool                    cursorTrack = true;
+    bool                    cvTrack = false;
+
 };
