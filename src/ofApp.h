@@ -39,6 +39,7 @@ public:
 
     vector<Particle> particles;
     vector<Particle> track;
+    vector<Particle> trackCv;
     int nbParticles = 1000;
     int mouseX = 0;
     int mouseY = 0;
@@ -62,7 +63,8 @@ public:
     int                     width = ofGetWidth();
     int                     height = ofGetHeight();
 
-    bool                    cursorTrack = true;
+    bool                    cursorTrack = false;
     bool                    cvTrack = false;
+    bool                    constellation = true;
 
 };
