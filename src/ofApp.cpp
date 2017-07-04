@@ -6,34 +6,43 @@ void ofApp::setup(){
     ofEnableDepthTest();
     ofSetVerticalSync(true);
 
-    cam.setGlobalPosition(-ofGetWidth()/2, -ofGetHeight()/2, 0);
+    cam.setPosition(0, 0, 0);
+
+    lookat.setPosition(1000,0, 0);
+    cam.lookAt(lookat);
+
+
     for (int i = 0 ; i < nbParticles ; i++) {
 
 
         ofPoint pts;
-        pts.set(ofRandom(-10,ofGetWidth()),ofRandom(0, ofGetHeight()),0);
-        int dim = ofRandom(2.5);
-        float sx = ofRandom(-0.5,0.7);
-        float sy = ofRandom(-0.1,0.5);
-        float sz = ofRandom(1);
+        pts.set(ofGetWidth()/2, ofGetHeight()/2);
+        float dim = 1;
+        float radius = ofRandom(200,500);
+        float sx, sy;
+        sx = sy = ofRandom(-0.3,0.3);
+
+        float sz = 1;
+        float ox = ofRandom(100);
+        float oy = ofRandom(100);
         ofColor color = ofRandom(100, 255);
-        Particle p(pts, dim, sx, sy, sz, color);
+        Particle p(pts, radius, dim, sx, sy, sz, ox, oy, color);
         particles.push_back(p);
     }
 
-    // ------
-    // OpenCV
-    vidGrabber.setVerbose(true);
-    vidGrabber.setup(width, height);
-    vidGrabber.listDevices();
+//    // ------
+//    // OpenCV
+//    vidGrabber.setVerbose(true);
+//    vidGrabber.setup(width, height);
+//    vidGrabber.listDevices();
 
-    colorImg.allocate(width, height);
-    grayImage.allocate(width, height);
-    grayBg.allocate(width, height);
-    grayDiff.allocate(width, height);
+//    colorImg.allocate(width, height);
+//    grayImage.allocate(width, height);
+//    grayBg.allocate(width, height);
+//    grayDiff.allocate(width, height);
 
-    bLearnBakground = true;
-    threshold = 80;
+//    bLearnBakground = true;
+//    threshold = 80;
 }
 
 //--------------------------------------------------------------
