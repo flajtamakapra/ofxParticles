@@ -5,28 +5,31 @@ void ofApp::setup(){
     ofSetBackgroundColor(0);
     ofEnableDepthTest();
     ofSetVerticalSync(true);
+    cam.setDistance(2000);
 
-    cam.setPosition(0, 0, 0);
 
-    lookat.setPosition(1000,0, 0);
-    cam.lookAt(lookat);
+//    cam.setPosition(0, 0, 0);
+
+//    lookat.setPosition(0,0, 0);
+//    cam.lookAt(lookat);
 
 
     for (int i = 0 ; i < nbParticles ; i++) {
 
 
         ofPoint pts;
-        pts.set(ofGetWidth()/2, ofGetHeight()/2);
-        float dim = 1;
-        float radius = ofRandom(200,500);
-        float sx, sy;
-        sx = sy = ofRandom(-0.3,0.3);
+        pts.set(0,0,0);
+        float dim = ofRandom(1,3);
+        float radius = 400;
+        float sx, sy, sz;
+        sx = sy = sz = ofRandom(-3,3);
 
-        float sz = 1;
-        float ox = ofRandom(100);
-        float oy = ofRandom(100);
-        ofColor color = ofRandom(100, 255);
-        Particle p(pts, radius, dim, sx, sy, sz, ox, oy, color);
+//        float sz = 1;
+        float ox = ofRandom(20);
+        float oy = ofRandom(20);
+        float oz = ofRandom(20);
+        ofColor color = 255;
+        Particle p(pts, radius, dim, sx, sy, sz, ox, oy, oz,color);
         particles.push_back(p);
     }
 
@@ -51,41 +54,41 @@ void ofApp::update(){
     //--------------------------------------
     // -------------------------------------
     // OpenCV
-    if(cvTrack){
-        bool bNewFrame = false;
-        vidGrabber.update();
-        bNewFrame = vidGrabber.isFrameNew();
-        if (bNewFrame){
-            colorImg.setFromPixels(vidGrabber.getPixels());
-            grayImage = colorImg;
-            if (bLearnBakground == true){
-                grayBg = grayImage;
-                bLearnBakground = false;
-            }
-            grayDiff.absDiff(grayBg, grayImage);
-            grayDiff.threshold(threshold);
+//    if(cvTrack){
+//        bool bNewFrame = false;
+//        vidGrabber.update();
+//        bNewFrame = vidGrabber.isFrameNew();
+//        if (bNewFrame){
+//            colorImg.setFromPixels(vidGrabber.getPixels());
+//            grayImage = colorImg;
+//            if (bLearnBakground == true){
+//                grayBg = grayImage;
+//                bLearnBakground = false;
+//            }
+//            grayDiff.absDiff(grayBg, grayImage);
+//            grayDiff.threshold(threshold);
 
-            contourFinder.findContours(grayDiff, 200, 500, 20, false);	// find holes
-        }
-        if(contourFinder.nBlobs<0){
-            for (int i = 0 ; i < contourFinder.blobs[0].nPts ; i+=10) {
+//            contourFinder.findContours(grayDiff, 200, 500, 20, false);	// find holes
+//        }
+//        if(contourFinder.nBlobs<0){
+//            for (int i = 0 ; i < contourFinder.blobs[0].nPts ; i+=10) {
 
-                int nextPts = 0;
-                for(int j = 0 ; j < nbParticles ; j++) {
-                    float d1 = ofDistSquared(particles[j].pts, trackCv[i].pts);
-                    float d2 = ofDistSquared(particles[nextPts].pts, trackCv[i].pts);
-                    if(d1 < d2){
-                        nextPts = j;
-                    }
-                }
-                cout << nextPts << endl;
-                trackCv.push_back(particles[nextPts]);
+//                int nextPts = 0;
+//                for(int j = 0 ; j < nbParticles ; j++) {
+//                    float d1 = ofDistSquared(particles[j].pts, trackCv[i].pts);
+//                    float d2 = ofDistSquared(particles[nextPts].pts, trackCv[i].pts);
+//                    if(d1 < d2){
+//                        nextPts = j;
+//                    }
+//                }
+//                cout << nextPts << endl;
+//                trackCv.push_back(particles[nextPts]);
 
-            }
+//            }
 
-        }
+//        }
 
-    }
+//    }
     //--------------------------------------
 
 
@@ -101,7 +104,7 @@ void ofApp::update(){
     if(cursorTrack){
         track.push_back(particles[p0]);
 
-        for (int i = 0 ; i < 60; i++ ){
+        for (int i = 0 ; i < nbSauts; i++ ){
             int nextPts = 0;
             for (int j = 0 ; j < nbParticles ; j++) {
                 float d1 = ofDistSquared(particles[j].pts, track[i].pts);
@@ -120,16 +123,16 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 cam.begin();
-    if(cvTrack){
+//    if(cvTrack){
 
-        string nbb = std::to_string(contourFinder.nBlobs);
-        string nbBlobs = "nbBlobs: "  + nbb;
-        ofDrawBitmapString(nbBlobs, 100, 40,0 );
-        for (int i = 0 ; i < contourFinder.nBlobs ; i++){
-            string npts = std::to_string(contourFinder.blobs[i].nPts);
-            ofDrawBitmapString("Blob " + std::to_string(i) + ": " + npts, 100, (i+3)*20, 0);
-        }
-    }
+//        string nbb = std::to_string(contourFinder.nBlobs);
+//        string nbBlobs = "nbBlobs: "  + nbb;
+//        ofDrawBitmapString(nbBlobs, 100, 40,0 );
+//        for (int i = 0 ; i < contourFinder.nBlobs ; i++){
+//            string npts = std::to_string(contourFinder.blobs[i].nPts);
+//            ofDrawBitmapString("Blob " + std::to_string(i) + ": " + npts, 100, (i+3)*20, 0);
+//        }
+//    }
 
 
     for (int i = 0 ; i < nbParticles ; i++)particles[i].draw();

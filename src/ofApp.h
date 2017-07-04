@@ -5,6 +5,7 @@
 #include "ofxOpenCv.h"
 #include "math.h"
 
+
 class ofApp : public ofBaseApp{
 
 public:
@@ -30,7 +31,7 @@ public:
     bool isVisited(Particle p){
         bool visite = false;
         for (int i = 0 ; i < track.size() ; i++){
-            if(visite = (track[i] == p)){
+            if((visite = (track[i] == p))){
                 return true;
             }
         }
@@ -41,7 +42,8 @@ public:
     vector<Particle> track;
     vector<Particle> trackCv;
 
-    int nbParticles = 200;
+    int nbParticles = 1000;
+    int nbSauts = 10;
 
     int mouseX = 0;
     int mouseY = 0;
@@ -50,14 +52,14 @@ public:
 
     // ----
     // OpenCV
-    ofVideoGrabber          vidGrabber;
-    ofxCvColorImage			colorImg;
+//    ofVideoGrabber          vidGrabber;
+//    ofxCvColorImage			colorImg;
 
-    ofxCvGrayscaleImage 	grayImage;
-    ofxCvGrayscaleImage 	grayBg;
-    ofxCvGrayscaleImage 	grayDiff;
+//    ofxCvGrayscaleImage 	grayImage;
+//    ofxCvGrayscaleImage 	grayBg;
+//    ofxCvGrayscaleImage 	grayDiff;
 
-    ofxCvContourFinder      contourFinder;
+//    ofxCvContourFinder      contourFinder;
 
 
     int                     threshold;
