@@ -40,7 +40,7 @@ public:
     vector<Particle> particles;
     vector<Particle> track;
     vector<Particle> trackCv;
-    int nbParticles = 1000;
+    int nbParticles = 200;
     int mouseX = 0;
     int mouseY = 0;
     int pp1 = 0;
@@ -66,5 +66,7 @@ public:
     bool                    cursorTrack = false;
     bool                    cvTrack = false;
     bool                    constellation = true;
+
+    ofEasyCam cam;
 
 };

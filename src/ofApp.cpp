@@ -3,6 +3,10 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetBackgroundColor(0);
+    ofEnableDepthTest();
+    ofSetVerticalSync(true);
+
+    cam.setGlobalPosition(-ofGetWidth()/2, -ofGetHeight()/2, 0);
     for (int i = 0 ; i < nbParticles ; i++) {
 
 
@@ -106,7 +110,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+cam.begin();
     if(cvTrack){
 
         string nbb = std::to_string(contourFinder.nBlobs);
@@ -144,6 +148,8 @@ void ofApp::draw(){
         }
     trackCv.clear();
     }
+
+    cam.end();
 
 }
 
