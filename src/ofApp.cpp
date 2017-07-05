@@ -20,11 +20,11 @@ void ofApp::setup(){
         ofPoint pts;
         pts.set(0,0,0);
         float dim = ofRandom(1,3);
-        float radius = 400;
-        float sx, sy, sz;
-        sx = sy = sz = ofRandom(-3,3);
+        float radius = ofRandom(400,500);
+        float sx, sy;
+        sx = sy = ofRandom(-3,3);
 
-//        float sz = 1;
+        float sz = ofRandom(-3,3);
         float ox = ofRandom(20);
         float oy = ofRandom(20);
         float oz = ofRandom(20);
